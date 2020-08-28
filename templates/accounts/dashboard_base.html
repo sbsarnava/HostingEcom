@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <title>{{ title }}</title>
+    <style>
+        #sidebar {
+            padding-bottom: 70vh;
+            border-right: lightblue solid 5px;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="http://localhost:8000">GitDev</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
+            aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            {% url 'shop:index' as index %}
+            {% url 'shop:store' as store %}
+            <li class="nav-item {% if request.path == index %}active{% endif %}">
+                <a class="nav-link" href="{% url 'shop:index' %}">Home<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item {% if request.path == store %}active{% endif %}">
+                <a class="nav-link" href="{% url 'shop:store' %}">Store</a>
+            </li>
+
+        </ul>
+        {% if user.is_authenticated %}
+
+            <ul class="navbar-nav">
+                <div class="dropdown mr-3" id='cart'>
+                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Cart
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        {% for x in cart.item.all %}
+                            <a class="dropdown-item px-1" href="#">{{ x.item.title }} - {{ x.quantity }}</a>
+                        {% endfor %}
+                        <div class="row d-flex justify-content-center mx-n2 px-0">
+                            <div class="col-sm-6">
+                                <a class="btn btn-primary" href="{% url 'shop:checkout' %}">Checkout</a>
+
+                            </div>
+                            <div class="col-sm-6">
+                                <a class="btn btn-primary" href="{% url 'shop:cart' %}">Cart</a>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <li class="nav-item dropdown dropleft">
+                    <a class="nav-link dropdown-toggle " href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        Account
+                    </a>
+                    <div class="dropdown-menu " aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="{% url 'users:profile' %}">Profile</a>
+                        <a class="dropdown-item" href="{% url 'users:profile-orders' %}">Orders</a>
+                        <a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a>
+                    </div>
+                </li>
+            </ul>
+        {% else %}
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login:login' %}">Login</a>
+                </li>
+            </ul>
+
+        {% endif %}
+    </div>
+</nav>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-2 px-0">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light" id="sidebar">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    {% url 'users:profile' as profile %}
+                    {% url 'users:profile-orders' as orders1 %}
+                    {% url 'users:profile-products' as products %}
+                    {% url 'users:profile-invoicelist' as invoices %}
+                    {% url 'users:profile-settings' as settings %}
+                    {% url 'users:change-API' as apisettings %}
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == profile %}disabled{% endif %}"
+                               href="{{ profile }}">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == products %}disabled{% endif %}"
+                               href="{{ products }}">My Products</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == orders1 %}disabled{% endif %}"
+                               href="{{ orders1 }}">My Orders</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == invoices %}disabled{% endif %}"
+                               href="{{ invoices }}">My Invoices</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == settings %}disabled{% endif %}"
+                               href="{{ settings }}">Settings</a>
+                        </li>
+                        {% load filters %}
+                        {% if request.user|has_group:'admin' or request.user.is_superuser %}
+                            <li class="nav-item">
+                                <a class="nav-link {% if request.path == apisettings %}disabled{% endif %}"
+                                   href="{{ apisettings }}">Change API settings</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        {% block content %}
+
+        {% endblock %}
+    </div>
+
+</div>
+
+
+</body>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+</html>

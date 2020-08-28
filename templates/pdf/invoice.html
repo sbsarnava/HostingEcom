@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Invoice</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <style>
+        img {
+            height: 37px;
+            width: 132px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <img src="C:\Users\sarna\Documents\Code\HostingEcom\templates\pdf\logo.png">
+        <h1>Order Id: {{ order.orderId }}</h1>
+        <h1>Date: {{ order.placed_date }}</h1>
+
+        <h1>Address: {{ order.billingAddress }}</h1>
+    </div>
+</body>
+
+</html>

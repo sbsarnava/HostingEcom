@@ -1,0 +1,73 @@
+{% extends 'accounts/dashboard_base.html' %}
+{% block content %}
+    <div class="col-10">
+        <div class="row">
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-title"><h5 class="mt-1" style="text-align: center"><a
+                            class="list-group-item" style="border: none; text-decoration: none"
+                            href="{% url 'users:profile-settings' %}">
+                        My Address</a></h5></div>
+                    <div class="card-body">{{ userProfile.fullname }},<br>
+                        {{ userProfile.address1 }},<br>
+                        {{ userProfile.address2 }},<br>
+                        {{ userProfile.pincode }},<br>
+                        {{ userProfile.state }},<br>
+                        {{ userProfile.country }}.
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-title" style="text-align: center"><a
+                            class="list-group-item" style="border: none; text-decoration: none"
+                            href="{% url 'users:profile-invoicelist' %}"><h5>My Invoices</h5></a></div>
+                    <div class="card-body">
+                        <ol>
+                            {% for order in orders|dictsortreversed:"placed_date" %}
+                                <a href={% url 'users:profile-invoice' order.orderId %}>
+                                    <li>Invoice Id - {{ order.orderId }}</li>
+                                </a>
+                            {% endfor %}
+                        </ol>
+                        <center>
+                            {% if orders.has_previous %}
+                                <a href="?page1={{ orders.previous_page_number }}&page2={{ ordersNotDone.number }}">Previous</a>
+                            {% endif %}
+                            {% if orders.has_next %}
+                                <a href="?page1={{ orders.next_page_number }}&page2={{ ordersNotDone.number }}">Next</a>
+                            {% endif %}
+                        </center>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-title" style="text-align: center"><a
+                            class="list-group-item" style="border: none; text-decoration: none"
+                            href="{% url 'users:profile-invoicelist' %}"><h5>Outstanding Payments</h5></a></div>
+                    <div class="card-body">
+                        <ol>
+                            {% for order in ordersNotDone %}
+                                <a href="#">
+                                    <li>Order - {{ order.orderId }}</li>
+                                </a>
+                            {% endfor %}
+                            <center>
+                                {% if ordersNotDone.has_previous %}
+                                    <a href="?page2={{ ordersNotDone.previous_page_number }}&page1={{ orders.number }}">Previous</a>
+                                {% endif %}
+                                {% if ordersNotDone.has_next %}
+                                    <a href="?page2={{ ordersNotDone.next_page_number }}&page1={{ orders.number }}">Next</a>
+                                {% endif %}
+                            </center>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+{% endblock %}

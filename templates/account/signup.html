@@ -1,0 +1,21 @@
+{% extends 'account/auth_base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+    <title>Register</title>
+{% endblock %}
+{% block content %}
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-sm-12">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <center>
+                        <button type="submit" class="btn btn-primary">Sign Up</button>
+                </form>
+                <a class="btn btn-info" href="{% url 'account_login' %}">Log In</a>
+                </center>
+            </div>
+        </div>
+    </div>
+{% endblock %}

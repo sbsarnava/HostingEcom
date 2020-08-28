@@ -1,0 +1,21 @@
+{% extends 'accounts/dashboard_base.html' %}
+
+
+{% block content %}
+    <div class="col-10">
+        <ol>
+            {% for order in orders %}
+                {% for item in order.cartItems.item.all %}
+                    {% load filters %}
+                    {% for num in item.quantity|times %}
+                        <h6><li>{{ item.item.title }}</li></h6>
+                        <a class="btn btn-primary text-white">Go To Panel</a>
+
+                        <br><hr>
+                    {% endfor %}
+                {% endfor %}
+            {% endfor %}
+        </ol>
+
+    </div>
+{% endblock %}

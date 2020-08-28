@@ -1,0 +1,13 @@
+.dropdown-menu {
+    min-width: 0;
+}
+
+.dropdown-menu .dropdown-item {
+    white-space: normal;
+}
+.dropdown-menu {
+    width: 11em;
+}
+.spacer {
+    margin-left: 40px; /* define margin as you see fit */
+}

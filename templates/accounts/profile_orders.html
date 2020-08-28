@@ -1,0 +1,26 @@
+{% extends 'accounts/dashboard_base.html' %}
+{% block content %}
+    <div class="col-sm-10">
+        <ol>
+            {% for order in orders|dictsortreversed:"created_date" %}
+                <h3>
+                    <li>{% for item in order.cartItems.item.all %}
+
+                        {{ item.item.title }} - {{ item.quantity }}
+
+                    {% endfor %}
+
+                        <a href="{% url 'users:profile-invoice' order.orderId %}"
+                           class="btn btn-primary">Invoice</a>
+                    </li>
+                </h3>
+                <br>
+                <hr>
+            {% endfor %}
+        </ol>
+    </div>
+
+
+
+
+{% endblock %}
