@@ -16,7 +16,7 @@ class Item(models.Model):
     title = models.CharField(max_length=200)
     image = models.ImageField(default='default.jpg')
     price = models.IntegerField()
-    package_name = models.CharField(max_length=50, blank=True, null=True)
+    package_name = models.CharField(max_length=50)
 
     def __str__(self):
         return self.title
@@ -45,7 +45,7 @@ class Cart(models.Model):
     def __str__(self):
         return f"Cart {self.id} of {self.user}"
 
-
+# Not Working now
 class PromoCode(models.Model):
     promo = models.CharField(unique=True, max_length=100)
     startDate = models.DateTimeField(null=True, blank=True)
@@ -68,26 +68,44 @@ class BillingAddress(models.Model):
     phonenumber = models.CharField(max_length=20)
     email = models.EmailField(blank=True, null=True)
     address1 = models.CharField(max_length=1000)
-    address2 = models.CharField(max_length=1000, null=True)
+    address2 = models.CharField(max_length=1000, blank=True, null=True)
+    city = models.CharField(max_length=100, blank=True, null=True)
     country = models.CharField(max_length=100)
     state = models.CharField(max_length=100)
     pincode = models.IntegerField()
-    same_as_shipping = models.BooleanField(default=False, null=True)
+    same_as_shipping = models.BooleanField(default=False)
     saveAddress = models.BooleanField(default=False, null=True)
 
     def __str__(self):
         return self.user.username
 
 
+class ShippingAddress(models.Model):
+    firstname = models.CharField(max_length=200)
+    lastname = models.CharField(max_length=200)
+    phonenumber = models.CharField(max_length=20)
+    email = models.EmailField(blank=True, null=True)
+    address1 = models.CharField(max_length=1000)
+    address2 = models.CharField(max_length=1000, blank=True, null=True)
+    city = models.CharField(max_length=100, blank=True, null=True)
+    country = models.CharField(max_length=100)
+    state = models.CharField(max_length=100)
+    pincode = models.IntegerField()
+
+    def __str__(self):
+        return f"{self.firstname} {self.lastname}"
+
+
 class Order(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, models.PROTECT)
-    orderId = models.CharField(max_length=10, blank=True, null=True, default=randomNumber())
+    orderId = models.CharField(max_length=10, default=randomNumber(), unique=True)
     cartItems = models.OneToOneField(Cart, on_delete=models.CASCADE)
     created_date = models.DateTimeField(default=datetime.now)
     placed_date = models.DateTimeField(null=True, blank=True)
     updated_date = models.DateTimeField(auto_now=True)
     ordered = models.BooleanField(default=False)
     billingAddress = models.ForeignKey(BillingAddress, on_delete=models.PROTECT)
+    shippingAddress = models.ForeignKey(ShippingAddress, on_delete=models.PROTECT, null=True)
     status = models.CharField(choices=ORDER_STATUS, default='processing', max_length=11)
 
     def __str__(self):
