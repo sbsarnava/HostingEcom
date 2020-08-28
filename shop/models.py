@@ -45,6 +45,7 @@ class Cart(models.Model):
     def __str__(self):
         return f"Cart {self.id} of {self.user}"
 
+
 # Not Working now
 class PromoCode(models.Model):
     promo = models.CharField(unique=True, max_length=100)
@@ -73,27 +74,10 @@ class BillingAddress(models.Model):
     country = models.CharField(max_length=100)
     state = models.CharField(max_length=100)
     pincode = models.IntegerField()
-    same_as_shipping = models.BooleanField(default=False)
     saveAddress = models.BooleanField(default=False, null=True)
 
     def __str__(self):
         return self.user.username
-
-
-class ShippingAddress(models.Model):
-    firstname = models.CharField(max_length=200)
-    lastname = models.CharField(max_length=200)
-    phonenumber = models.CharField(max_length=20)
-    email = models.EmailField(blank=True, null=True)
-    address1 = models.CharField(max_length=1000)
-    address2 = models.CharField(max_length=1000, blank=True, null=True)
-    city = models.CharField(max_length=100, blank=True, null=True)
-    country = models.CharField(max_length=100)
-    state = models.CharField(max_length=100)
-    pincode = models.IntegerField()
-
-    def __str__(self):
-        return f"{self.firstname} {self.lastname}"
 
 
 class Order(models.Model):
@@ -105,7 +89,6 @@ class Order(models.Model):
     updated_date = models.DateTimeField(auto_now=True)
     ordered = models.BooleanField(default=False)
     billingAddress = models.ForeignKey(BillingAddress, on_delete=models.PROTECT)
-    shippingAddress = models.ForeignKey(ShippingAddress, on_delete=models.PROTECT, null=True)
     status = models.CharField(choices=ORDER_STATUS, default='processing', max_length=11)
 
     def __str__(self):

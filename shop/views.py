@@ -72,10 +72,10 @@ def checkout(request):
                                                     email=form.cleaned_data['email'],
                                                     address1=form.cleaned_data['address1'],
                                                     address2=form.cleaned_data['address2'],
+                                                    city=form.cleaned_data['city'],
                                                     country=form.cleaned_data['country'],
                                                     state=form.cleaned_data['state'],
                                                     pincode=form.cleaned_data['pincode'],
-                                                    same_as_shipping=form.cleaned_data['same_as_shipping'],
                                                     saveAddress=form.cleaned_data['saveAddress'])
             order = Order.objects.create(user=request.user,
                                          cartItems=Cart.objects.filter(user=request.user).order_by('-id')[0],

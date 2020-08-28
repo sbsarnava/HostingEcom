@@ -42,6 +42,12 @@ class BillingForm(forms.Form):
             'onchange': 'edited()'
         }))
 
+    city = forms.CharField(max_length=100, widget=forms.TextInput(
+        attrs={
+            'class': 'form-control',
+            'onchange': 'edited()'
+        }))
+
     state = forms.CharField(max_length=100, widget=forms.TextInput(
         attrs={
             'class': 'form-control',
@@ -54,12 +60,12 @@ class BillingForm(forms.Form):
             'class': 'form-control',
             'onchange': 'edited()'
         }))
-    same_as_shipping = forms.BooleanField(widget=forms.CheckboxInput(
-        attrs={
-            'class': 'custom-control-input',
-            'type': 'checkbox'
-        }
-    ), initial=False)
+    # same_as_shipping = forms.BooleanField(widget=forms.CheckboxInput(
+    #     attrs={
+    #         'class': 'custom-control-input',
+    #         'type': 'checkbox'
+    #     }
+    # ), initial=False)
     saveAddress = forms.BooleanField(widget=forms.CheckboxInput(
         attrs={
             'class': 'custom-control-input',
@@ -80,7 +86,6 @@ class BillingForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super(BillingForm, self).__init__(*args, **kwargs)
-        self.fields['same_as_shipping'].required = False
         self.fields['saveAddress'].required = False
         self.fields['email'].required = False
         self.fields['address2'].required = False

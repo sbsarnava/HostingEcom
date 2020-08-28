@@ -148,14 +148,23 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-md-5 mb-3">
+
+                    <div class="col-md-3 mb-2">
+                        <label for="{{ form.city.id_for_label }}">City/Town/Village</label>
+                        {{ form.city }}
+                        <div class="invalid-feedback">
+                            Please select a valid City.
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 mb-2">
                         <label for="{{ form.country.id_for_label }}">Country</label>
                         {{ form.country }}
                         <div class="invalid-feedback">
                             Please select a valid country.
                         </div>
                     </div>
-                    <div class="col-md-4 mb-3">
+                    <div class="col-md-3 mb-2">
                         <label for="{{ form.state.id_for_label }}">State</label>
                         {{ form.state }}
                         <div class="invalid-feedback">
@@ -171,12 +180,12 @@
                     </div>
                 </div>
                 <hr class="mb-4">
-                <div class="custom-control custom-checkbox">
-                    {{ form.same_as_shipping }}
+                <!-- <div class="custom-control custom-checkbox">
+                    {% comment %}{{ form.same_as_shipping }}
                     <label class="custom-control-label" for="{{ form.same_as_shipping.id_for_label }}">Shipping
                         address is the same as my
                         billing address</label>
-                </div>
+                </div>{% endcomment %} -->
                 <div class="custom-control custom-checkbox">
                     {{ form.saveAddress }}
                     <label class="custom-control-label" for="{{ form.saveAddress.id_for_label }}">Save this
