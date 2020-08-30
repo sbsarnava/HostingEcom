@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .models import *
 from .forms import BillingForm
-from users.models import CompletedOrder
+from users.utils import randomNumber
 
 
 def index(request):
@@ -92,9 +92,7 @@ def checkout(request):
                     for items in orderItems:
                         items.ordered = True
                         items.save()
-                    billing.save()
                     order.save()
-                    CompletedOrder.objects.create(user=request.user, order=order)
                     Cart.objects.create(user=request.user)
                     return redirect('shop:cash-payment')
             elif form.cleaned_data['payment'] == 'razorpay':
@@ -153,6 +151,7 @@ def getAddress(request):
                 'email1': billing.email,
                 'phonenumber': billing.phonenumber,
                 'state': billing.state,
+                'city': billing.city,
                 'pincode': billing.pincode,
                 'country': billing.country
             }

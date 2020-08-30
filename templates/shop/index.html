@@ -60,7 +60,7 @@
             $('[id^=atc]').on('submit', function (e) {
                 e.preventDefault();
                 $.ajax({
-                    type: 'GET',
+                    type: 'POST',
                     url: '/add-to-cart/',
                     data: {
                         pk: e.target.id.toString().substr(4),
