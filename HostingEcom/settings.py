@@ -138,11 +138,3 @@ LOGIN_REDIRECT_URL = '/'
 SESSION_SAVE_EVERY_REQUEST = True
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 ACCOUNT_LOGOUT_ON_GET = True
-
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.zoho.in'
-EMAIL_USE_TLS = True
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'admin@gitdev.in'
-EMAIL_HOST_PASSWORD = 'Banerjee123$'
-DEFAULT_FROM_EMAIL = 'admin@gitdev.in'

@@ -4,8 +4,8 @@ from django.template.loader import get_template
 from xhtml2pdf import pisa
 import random, string, requests
 
-adminUser = 'admin'
-adminPass = 'x9DSPICmaKu5Dk23'
+adminUser = 'Enter Admin Username'
+adminPass = 'Enter Admin Pass'
 
 
 def render_to_pdf(template_src, context_dict={}):
@@ -29,5 +29,5 @@ def verifyConnection():
         "adminUser": adminUser,
         "adminPass": adminPass
     }
-    response = requests.post('https://panel.gitdev.in:8090/api/verifyConn', json=data)
+    response = requests.post('https://Enter Panel URL/api/verifyConn', json=data)
     return response
