@@ -92,6 +92,7 @@ def checkout(request):
                     for items in orderItems:
                         items.ordered = True
                         items.save()
+                    billing.save()
                     order.save()
                     Cart.objects.create(user=request.user)
                     return redirect('shop:cash-payment')
