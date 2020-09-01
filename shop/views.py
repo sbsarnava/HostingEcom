@@ -86,7 +86,6 @@ def checkout(request):
                 with transaction.atomic():
                     order.ordered = True
                     order.placed_date = datetime.now()
-                    # Fix this part so that the order items in the current Cart is ordered to True
                     orderItems = OrderItem.objects.filter(user=request.user, ordered=False)
 
                     for items in orderItems:

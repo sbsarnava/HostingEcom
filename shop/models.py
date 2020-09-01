@@ -40,7 +40,7 @@ class OrderItem(models.Model):
 
 class Cart(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    item = models.ManyToManyField(OrderItem, null=True, blank=True)
+    item = models.ManyToManyField(OrderItem, blank=True)
 
     def __str__(self):
         return f"Cart {self.id} of {self.user}"
@@ -77,7 +77,7 @@ class BillingAddress(models.Model):
     saveAddress = models.BooleanField(default=False, null=True)
 
     def __str__(self):
-        return self.user.username
+        return f"{self.user.username} - {self.id}"
 
 
 class Order(models.Model):
