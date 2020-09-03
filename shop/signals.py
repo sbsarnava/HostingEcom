@@ -5,7 +5,7 @@ from .models import BillingAddress, Order
 
 @receiver(post_save, sender=Order)
 def dont_save_if_all_fields_matching(sender, instance, created, **kwargs):
-    if created:
+    if not created:
         currentOrder = instance
         previousBilling = BillingAddress.objects.filter(user=currentOrder.user,
                                                         firstname=currentOrder.billingAddress.firstname,
@@ -18,9 +18,7 @@ def dont_save_if_all_fields_matching(sender, instance, created, **kwargs):
                                                         state=currentOrder.billingAddress.state,
                                                         pincode=currentOrder.billingAddress.pincode
                                                         )
-        if len(previousBilling) > 0:
-            currentBillingId = currentOrder.billingAddress.id
+        currentBilling = currentOrder.billingAddress
+        if len(previousBilling) > 1:
             currentOrder.billingAddress = previousBilling[0]
-            currentOrder.save()
-            BillingAddress.objects.get(id=currentBillingId).delete()
-            print('Id: ', currentBillingId)
+            currentBilling.delete()
