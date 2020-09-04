@@ -36,8 +36,8 @@
         </ul>
         {% if user.is_authenticated %}
 
-            <ul class="navbar-nav">
-                <div class="dropdown mr-3" id='cart'>
+            <ul class="navbar-nav" id='cart'>
+                <div class="dropdown mr-3">
                     <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Cart
@@ -56,7 +56,6 @@
 
                             </div>
                         </div>
-
                     </div>
                 </div>
                 <li class="nav-item dropdown dropleft">
@@ -77,8 +76,8 @@
                     <a class="nav-link" href="{% url 'account_login' %}">Login</a>
                 </li>
                 <li class="nav-item">
-                        <a class="nav-link" href="{% url 'account_signup' %}">Register</a>
-                    </li>
+                    <a class="nav-link" href="{% url 'account_signup' %}">Register</a>
+                </li>
             </ul>
 
         {% endif %}

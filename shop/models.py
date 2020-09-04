@@ -83,13 +83,14 @@ class BillingAddress(models.Model):
 class Order(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     orderId = models.CharField(max_length=10, default=randomNumber(), unique=True)
-    cartItems = models.OneToOneField(Cart, on_delete=models.CASCADE)
+    cartItems = models.ForeignKey(Cart, on_delete=models.CASCADE)
     created_date = models.DateTimeField(default=datetime.now)
     placed_date = models.DateTimeField(null=True, blank=True)
     updated_date = models.DateTimeField(auto_now=True)
     ordered = models.BooleanField(default=False)
     billingAddress = models.ForeignKey(BillingAddress, null=True, on_delete=models.SET_NULL)
     status = models.CharField(choices=ORDER_STATUS, default='processing', max_length=11)
+    paymentSuccessful = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.user} - {self.placed_date}"

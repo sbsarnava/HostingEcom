@@ -66,25 +66,29 @@ def checkout(request):
     elif request.method == 'POST':
         form = BillingForm(request.POST or None)
         if form.is_valid():
-            billing = BillingAddress.objects.create(user=request.user, firstname=form.cleaned_data['firstname'],
-                                                    lastname=form.cleaned_data['lastname'],
-                                                    phonenumber=form.cleaned_data['phonenumber'],
-                                                    email=form.cleaned_data['email'],
-                                                    address1=form.cleaned_data['address1'],
-                                                    address2=form.cleaned_data['address2'],
-                                                    city=form.cleaned_data['city'],
-                                                    country=form.cleaned_data['country'],
-                                                    state=form.cleaned_data['state'],
-                                                    pincode=form.cleaned_data['pincode'],
-                                                    saveAddress=form.cleaned_data['saveAddress'])
-            billing.save()
-            order = Order.objects.create(user=request.user,
-                                         cartItems=Cart.objects.filter(user=request.user).order_by('-id')[0],
-                                         billingAddress=billing, orderId=randomNumber())
+            with transaction.atomic():
+                billing = BillingAddress.objects.create(user=request.user, firstname=form.cleaned_data['firstname'],
+                                                        lastname=form.cleaned_data['lastname'],
+                                                        phonenumber=form.cleaned_data['phonenumber'],
+                                                        email=form.cleaned_data['email'],
+                                                        address1=form.cleaned_data['address1'],
+                                                        address2=form.cleaned_data['address2'],
+                                                        city=form.cleaned_data['city'],
+                                                        country=form.cleaned_data['country'],
+                                                        state=form.cleaned_data['state'],
+                                                        pincode=form.cleaned_data['pincode'],
+                                                        saveAddress=form.cleaned_data['saveAddress'])
+                billing.save()
+                order, created = Order.objects.get_or_create(user=request.user,
+                                                             cartItems=
+                                                             Cart.objects.filter(user=request.user).order_by('-id')[0],
+                                                             billingAddress=billing, orderId=randomNumber(),
+                                                             ordered=False)
 
             if form.cleaned_data['payment'] == 'cash':
                 # Wrap this code to a roll off mode
                 with transaction.atomic():
+                    order.paymentSuccessful = True
                     order.ordered = True
                     order.placed_date = datetime.now()
                     orderItems = OrderItem.objects.filter(user=request.user, ordered=False)
@@ -141,7 +145,7 @@ def razorpay_payment(request):
 
 def getAddress(request):
     if request.is_ajax():
-        billing = BillingAddress.objects.get(id=request.GET['pk'])
+        billing = BillingAddress.objects.get(id=request.GET['pk'], saveAddress=True)
         if request.user == billing.user:
             data = {
                 'firstname': billing.firstname,
