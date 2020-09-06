@@ -1,6 +1,6 @@
 from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
-from .models import BillingAddress, Order
+from .models import BillingAddress, Order, CompletedOrder
 
 
 @receiver(post_save, sender=Order)
@@ -22,3 +22,9 @@ def dont_save_if_all_fields_matching(sender, instance, created, **kwargs):
         if len(previousBilling) > 1:
             currentOrder.billingAddress = previousBilling[0]
             currentBilling.delete()
+
+
+@receiver(post_save, sender=CompletedOrder)
+def process_order(sender, instance, created, **kwargs):
+    for item in instance.completedOrder.cartItems.item.all():
+        print(item.item.title)

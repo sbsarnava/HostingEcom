@@ -94,3 +94,11 @@ class Order(models.Model):
 
     def __str__(self):
         return f"{self.user} - {self.placed_date}"
+
+
+class CompletedOrder(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+    completedOrder = models.ForeignKey(Order, on_delete=models.PROTECT)
+
+    def __str__(self):
+        return self.completedOrder.orderId

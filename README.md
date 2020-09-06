@@ -1,1 +1,3 @@
-This is a attempt at creating a Billing/Automation software for Cyberpanel(Initially) and then making it dynamic through custom API Endpoints of your control panel.
+Features needed to complete this project.
+1. Online Payment Integration
+2. API calls for the Orders to Reflect on the Panel
