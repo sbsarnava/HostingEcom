@@ -24,6 +24,13 @@ def dont_save_if_all_fields_matching(sender, instance, created, **kwargs):
             currentBilling.delete()
 
 
+@receiver(post_save, sender=Order)
+def convert_to_completed_order(sender, instance, created, **kwargs):
+    if not created:
+        if instance.paymentSuccessful == True:
+            CompletedOrder.objects.create(user=instance.user, completedOrder=instance)
+
+
 @receiver(post_save, sender=CompletedOrder)
 def process_order(sender, instance, created, **kwargs):
     for item in instance.completedOrder.cartItems.item.all():
