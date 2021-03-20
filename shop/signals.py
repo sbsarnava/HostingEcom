@@ -23,14 +23,14 @@ def dont_save_if_all_fields_matching(sender, instance, created, **kwargs):
             currentOrder.billingAddress = previousBilling[0]
             currentBilling.delete()
 
-
+#Currently all orders are automatically converted to completed orders 
 @receiver(post_save, sender=Order)
 def convert_to_completed_order(sender, instance, created, **kwargs):
     if not created:
         if instance.paymentSuccessful == True:
             CompletedOrder.objects.create(user=instance.user, completedOrder=instance)
 
-
+# Signal that accesses the individual items in a completed order
 @receiver(post_save, sender=CompletedOrder)
 def process_order(sender, instance, created, **kwargs):
     for item in instance.completedOrder.cartItems.item.all():

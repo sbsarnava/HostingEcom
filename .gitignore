@@ -3,5 +3,5 @@
 /.vscode
 db.sqlite3
 /venv/
-/HostingEcom/settings.py
+/env/
 /users/utils.py

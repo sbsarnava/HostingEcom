@@ -1,0 +1,2 @@
+1. Get it working with CyberPanel - Not Done
+2. Verify Connection - Working 

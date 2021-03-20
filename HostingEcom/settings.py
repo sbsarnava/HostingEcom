@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.facebook',
     'sslserver',
     'crispy_forms',
-    'users.apps.UsersConfig'
+    'users.apps.UsersConfig',
+    'server'
 ]
 
 MIDDLEWARE = [
@@ -138,3 +139,4 @@ LOGIN_REDIRECT_URL = '/'
 SESSION_SAVE_EVERY_REQUEST = True
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 ACCOUNT_LOGOUT_ON_GET = True
+ACCOUNT_EMAIL_VERIFICATION = "none"
