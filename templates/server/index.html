@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+<div class="container">
+<h1>This is the index page of Server</h1>
+<span class="row">
+<form method="POST" class="col-3">
+    {% csrf_token %}
+    {{server_details|crispy}}
+    <input type="submit">
+</form>
+{{server_details.error}}
+</span>
+</div>
+{% endblock %}

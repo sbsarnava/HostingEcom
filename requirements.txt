@@ -8,11 +8,14 @@ certifi==2020.6.20
 cffi==1.14.1
 chardet==3.0.4
 colorama==0.4.3
+cryptography==3.4.6
 cssselect2==0.3.0
 defusedxml==0.6.0
 Django==3.0.7
 django-allauth==0.42.0
+django-appconf==1.0.4
 django-crispy-forms==1.9.2
+django-cryptography==1.0
 django-phonenumber-field==4.0.0
 django-sslserver==0.22
 html5lib==1.1
